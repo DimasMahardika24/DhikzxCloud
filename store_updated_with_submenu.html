@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhikzx Cloud Store</title>
+    <style>
+        body { background: #222; font-family: 'Poppins', sans-serif; margin:0; padding:0; }
+        /* Background Video */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .background-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+        .loading-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#111; display:flex; align-items:center; justify-content:center; z-index:2000; transition:opacity 1s; }
+        .loading-screen.hidden { opacity:0; pointer-events:none; }
+        .loader { width:70px; height:70px; border:7px solid #444; border-top:7px solid #007bff; border-radius:50%; animation:spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .sidebar { position:fixed; top:0; left:-260px; width:260px; height:100%; background:rgba(0,0,0,0.95); color:#fff; transition:left .5s; z-index:1001; }
+        .sidebar.active { left:0; }
+        .sidebar ul { list-style:none; padding:90px 30px 0 30px; margin:0; }
+        .sidebar ul li { margin:0 0 4px 0; position:relative; }
+        .sidebar ul li ul { padding-left:18px; margin:0; padding-top:2px; }
+        .sidebar ul li ul li { margin:0 0 4px 0; }
+        .sidebar ul li a { color:#fff; text-decoration:none; font-size:18px; display:block; padding:6px 0;}
+        .sidebar ul li a:hover { color:#007bff; }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .sidebar.active ~ .sidebar-overlay { display: block; }
+        .toggle-btn { position:fixed; top:20px; left:20px; z-index:1100; font-size:24px; background:#007bff; color:#fff; padding:10px 15px; border-radius:8px; cursor:pointer; }
+        .container { max-width:1000px; margin:60px auto; padding:20px; }
+        section { display:none; }
+        section.active { display:block; }
+        .product-card { background:#333; border-radius:14px; margin-bottom:25px; box-shadow:0 4px 16px rgba(0,0,0,0.2); display:flex; gap:20px; align-items:center; padding:18px; opacity:0; transform:translateY(40px) scale(0.95); transition:all 0.7s cubic-bezier(0.68,-0.55,0.265,1.55);}
+        .product-card.visible { opacity:1; transform:translateY(0) scale(1);}
+        .product-card img { width:120px; border-radius:10px; }
+        .product-info { flex:1; }
+        .product-card h3 { color:#fff; }
+        .product-card p { color:#ccc; }
+        .product-card button { margin:5px 7px 0 0; padding:8px 18px; border:none; border-radius:7px; font-size:1rem; cursor:pointer; }
+        .buy-btn { background:#28a745; color:#fff; }
+        .cart-btn { background:#007bff; color:#fff; }
+        .cart { background:#333; border-radius:14px; margin-top:40px; padding:25px; color:#fff; }
+        .cart-count { position:fixed; top:20px; right:20px; background:#ff4444; color:#fff; border-radius:50%; padding:8px 12px; font-size:14px; z-index:1100;}
+        .audio-controls { position:fixed; bottom:20px; right:20px; z-index:1100; }
+        .audio-controls button { padding:12px; border:none; border-radius:8px; background:#007bff; color:#fff; cursor:pointer; }
+        .confirm-dialog { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.7); background:#fff; color:#222; padding:30px; border-radius:18px; box-shadow:0 12px 30px rgba(0,0,0,0.3); z-index:2000; opacity:0; visibility:hidden; transition:all .4s; text-align:center; }
+        .confirm-dialog.active { opacity:1; visibility:visible; transform:translate(-50%,-50%) scale(1); }
+        .confirm-dialog img { width:60px; height:60px; border-radius:50%; margin-bottom:16px; }
+        .confirm-dialog .buttons { display:flex; justify-content:center; gap:15px; }
+        .confirm-dialog button { padding:10px 25px; border:none; border-radius:8px; font-size:1rem; font-weight:600; }
+        .confirm-dialog .yes-btn { background:#28a745; color:#fff; }
+        .confirm-dialog .no-btn { background:#dc3545; color:#fff; }
+        @media (max-width: 768px) {
+            .container { padding:10px; }
+            .sidebar { width:200px; }
+            .product-card { flex-direction:column; align-items:flex-start; }
+            .product-card img { width:100%; }
+        #product-submenu {
+    margin-bottom: 18px; /* Atur sesuai kebutuhan */
+          }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="background-container">
+        <video id="bg-media" autoplay loop muted playsinline>
+            <source src="https://files.catbox.moe/3gne1j.mp4" type="video/mp4">
+        </video>
+    </div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loader"></div>
+    </div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li>
+                <a href="#" onclick="toggleSubmenu()">Produk</a>
+                <ul id="product-submenu" style="display:none;">
+                    <li><a href="#" onclick="renderCategory('lynxxx')">Script Lynxxx</a></li>
+                    <li><a href="#" onclick="renderCategory('panel')">Panel Pterodactyl</a></li>
+                    <li><a href="#" onclick="renderCategory('sewa')">Sewa Bot WhatsApp</a></li>
+                </ul>
+            </li>
+            <li><a href="#cart">Keranjang</a></li>
+        </ul>
+    </div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+    <!-- Confirmation Dialog -->
+    <div class="confirm-dialog" id="confirm-dialog">
+        <img src="https://files.catbox.moe/e3lv37.jpeg?text=Confirm" alt="Confirmation Icon">
+        <p>Apakah Anda yakin ingin checkout?</p>
+        <div class="buttons">
+            <button class="no-btn" onclick="cancelCheckout()">Tidak</button>
+            <button class="yes-btn" onclick="confirmCheckout()">Ya</button>
+        </div>
+    </div>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="active">
+            <h1 style="text-align:center; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.5);" id="home-title">Selamat Datang Di Dhikzx Cloud</h1>
+            <p id="home-subtitle" style="text-align:center; color:#eee; margin-top:18px; font-size:1.2rem;">
+                Dhikzx Cloud menghadirkan solusi digital lengkap untuk kebutuhan otomasi dan manajemen bot Anda.<br>
+                Kami menyediakan produk unggulan seperti <strong>Script Lynxxx Botz</strong> yang powerful, <strong>Panel Pterodactyle</strong> untuk tempat run dan kontrol bot anda, <strong>Sewa Botz</strong> dan <strong>Rename Bot</strong> yang fleksibel dan terpercaya.<br><br>
+                Dengan kualitas terbaik, harga kompetitif, dan dukungan teknis profesional, kami siap membantu Anda meningkatkan performa bot dan memaksimalkan produktivitas.<br>
+                Jelajahi produk kami dan rasakan kemudahan bertransaksi serta layanan pelanggan yang ramah di Dhikzx Cloud!
+            </p>
+        </section>
+        <!-- Products Section -->
+        <section id="products">
+            <h2 style="color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.5); text-align:center;">Produk</h2>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;" id="product-list"></div>
+        </section>
+        <!-- Cart Section -->
+        <section id="cart" class="cart">
+            <h2>Keranjang</h2>
+            <div class="cart-items" id="cart-items"></div>
+            <p id="cart-total" style="margin-top:10px; font-weight:bold;"></p>
+            <button class="checkout-btn" onclick="showConfirmDialog()">Checkout</button>
+        </section>
+    </div>
+    <!-- Cart Count -->
+    <div class="cart-count" id="cart-count">0</div>
+    <!-- Audio -->
+    <audio id="background-music" loop>
+        <source src="https://files.catbox.moe/pvi4ym.mpeg" type="audio/mpeg">
+    </audio>
+    <div class="audio-controls">
+        <button onclick="toggleMusic()">Play/Pause Music</button>
+    </div>
+
+    <script>
+const products = []; // Kosongkan produk utama, semua panel di kategori
+
+const productsByCategory = {
+    lynxxx: [
+        { id: 101, name: "Script Lynxxx V2", desc: "Auto reply + fitur lengkap", price: 30000, image: "https://files.catbox.moe/cnzyur.jpg?text=Lynxxx" },
+        { id: 102, name: "Reseller Script", desc: "Auto reply + fitur lengkap", price: 50000, image: "https://files.catbox.moe/cnzyur.jpg?text=Lynxxx" },
+        { id: 103, name: "Owner Script", desc: "Auto reply + fitur lengkap", price: 70000, image: "https://files.catbox.moe/cnzyur.jpg?text=Lynxxx" }
+    ],
+    panel: [
+        { id: 1, name: "Panel 5Gb", desc: "Spesifikasi Server:\n\n- Ram : 5.000\n- Disk : 3.000\n- Cpu : 120", price: 5000, image: "https://files.catbox.moe/my17w4.jpeg?text=Panel+5gb+5k" },
+        { id: 2, name: "Panel 6Gb", desc: "Spesifikasi Server:\n\n- Ram : 6.000\n- Disk : 3.000\n- Cpu : 140", price: 6000, image: "https://files.catbox.moe/my17w4.jpeg?text=Panel+6gb+6k" },
+        { id: 3, name: "Panel 7Gb", desc: "Spesifikasi Server:\n\n- Ram : 7.000\n- Disk : 4.000\n- Cpu : 160", price: 7000, image: "https://files.catbox.moe/my17w4.jpeg?text=Panel+7gb+7k" },
+        { id: 4, name: "Panel 8Gb", desc: "Spesifikasi Server:\n\n- Ram : 8.000\n- Disk : 4.000\n- Cpu : 180", price: 8000, image: "https://files.catbox.moe/my17w4.jpeg?text=Panel+8gb+8k" },
+        { id: 5, name: "Panel 9Gb", desc: "Spesifikasi Server:\n\n- Ram : 9.000\n- Disk : 5.000\n- Cpu : 200", price: 9000, image: "https://files.catbox.moe/my17w4.jpeg?text=Panel+9gb+9k" },
+        { id: 6, name: "Panel 10Gb", desc: "Spesifikasi Server:\n\n- Ram : 10.000\n- Disk : 5.000\n- Cpu : 220", price: 10000, image: "https://files.catbox.moe/my17w4.jpeg?text=Panel+10gb+10k" },
+        { id: 7, name: "Panel Unlimited", desc: "Spesifikasi Server:\n\n- Ram : ∞\n- Disk : ∞\n- Cpu : ∞", price: 12000, image: "https://files.catbox.moe/my17w4.jpeg?text=Panel+Unli+12k" },
+        { id: 8, name: "Reseller Panel", desc: "Benefit Buy:\n\n- Create Panel Sepuasnya\n- Bisa Jualan Panel\n- No Delay & Permanen", price: 15000, image: "https://files.catbox.moe/my17w4.jpeg?text=Reseller+Panel+15k" }
+    ],
+    sewa: [
+  { id: 301, name: "Paket Standard", desc: "- Rp. 8.000 / Grup\n- Aktif 7 Hari\n- Perpanjang Rp. 3.000\n- Free 1 User Premium 3 Hari", price: 8000, image: "https://files.catbox.moe/l917rb.jpeg?text=Sewa+Bot" },
+  { id: 302, name: "Paket Reguler", desc: "- Rp. 15.000 / Grup\n- Aktif 30 Hari\n- Perpanjang Rp. 5.000\n- Custom 1 Command\n- Free 3 User Premium 5 Hari", price: 15000, image: "https://files.catbox.moe/l917rb.jpeg?text=Sewa+Bot" },
+  { id: 303, name: "Paket Luxury", desc: "- Rp. 27.000 / Grup\n- Aktif 3 Bulan\n- Perpanjang Rp. 7.000\n- Custom 3 Command\n- Free 5 User Premium 30 Hari", price: 27000, image: "https://files.catbox.moe/l917rb.jpeg?text=Sewa+Bot" },
+  { id: 304, name: "Paket Supreme", desc: "- Rp. 32.000 / Grup\n- Aktif 5 Bulan\n- Perpanjang Rp. 10.000\n- Custom 5 Command\n- Free 7 User Premium 3 Bulan", price: 32000, image: "https://files.catbox.moe/l917rb.jpeg?text=Sewa+Bot" },
+  { id: 305, name: "Paket Visionary", desc: "- Rp. 50.000 / Grup\n- Aktif 1 Tahun\n- Perpanjang Rp. 13.000\n- Custom 7 Command\n- Free 10 User Premium 5 Bulan", price: 50000, image: "https://files.catbox.moe/l917rb.jpeg?text=Sewa+Bot" }
+]
+};
+
+let cart = [];
+
+function renderProducts() {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = '';
+    if (products.length === 0) {
+        productList.innerHTML = '<p style="color:white;">Tidak ada produk di halaman utama.</p>';
+        return;
+    }
+    products.forEach((product, index) => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.style.transitionDelay = `${index * 0.25}s`;
+        card.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+                <h3 style="color: #fff; margin-bottom: 5px;">${product.name}</h3>
+                <p style="color: #ccc; font-size: 0.95rem; margin-bottom: 5px;">
+                    ${product.desc.replace(/\n/g, '<br>')}
+                </p>
+                <p style="color: #fff; font-weight: 600;">Rp ${product.price.toLocaleString("id-ID")}</p>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="buy-btn" onclick="buyNow(${product.id})">Buy Now</button>
+                    <button class="cart-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                </div>
+            </div>
+        `;
+        productList.appendChild(card);
+    });
+    animateCards();
+}
+function animateCards() {
+    const cards = document.querySelectorAll('.product-card');
+    setTimeout(() => {
+        cards.forEach(card => card.classList.add('visible'));
+    }, 10);
+}
+function addToCart(productId, category) {
+    let product;
+    if (category) {
+        product = productsByCategory[category].find(p => p.id === productId);
+    } else {
+        product = products.find(p => p.id === productId);
+    }
+    if (!product) return;
+    cart.push({ ...product, checked: true });
+    updateCart();
+}
+function buyNow(productId, category) {
+    let product;
+    if (category) {
+        product = productsByCategory[category].find(p => p.id === productId);
+    } else {
+        product = products.find(p => p.id === productId);
+    }
+    if (!product) return;
+    if (!confirm(`Kamu yakin ingin membeli ${product.name} seharga Rp ${product.price.toLocaleString("id-ID")}?`)) return;
+    const message = `Saya ingin membeli ${product.name} seharga Rp ${product.price.toLocaleString("id-ID")}`;
+    window.open(`https://wa.me/6285810287828?text=${encodeURIComponent(message)}`, '_blank');
+}
+function updateCart() {
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = '';
+    cart.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
+        itemDiv.innerHTML = `
+            <div>
+                <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleCartItem(${index}, this.checked)">
+                ${item.name} - Rp ${item.price.toLocaleString("id-ID")} <button onclick="removeCartItem(${index})">❌</button>
+            </div>
+        `;
+        cartItems.appendChild(itemDiv);
+    });
+    document.getElementById('cart-count').textContent = cart.length;
+    const total = (cart.filter(i => i.checked).reduce((sum, i) => sum + i.price, 0)) || 0;
+    document.getElementById('cart-total').textContent = `Total: Rp ${total.toLocaleString("id-ID")}`;
+}
+function removeCartItem(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+function toggleCartItem(index, isChecked) {
+    cart[index].checked = isChecked;
+}
+function showConfirmDialog() {
+    const selectedItems = cart.filter(item => item.checked);
+    if (selectedItems.length === 0) {
+        alert('Pilih setidaknya satu item untuk checkout.');
+        return;
+    }
+    document.getElementById('confirm-dialog').classList.add('active');
+}
+function confirmCheckout() {
+    const selectedItems = cart.filter(item => item.checked);
+    if (selectedItems.length === 0) return;
+    let total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+    const message = `Saya ingin checkout: ${selectedItems.map(item => item.name).join(', ')} dengan total Rp ${total.toLocaleString("id-ID")}`;
+    window.open(`https://wa.me/6285810287828?text=${encodeURIComponent(message)}`, '_blank');
+    document.getElementById('confirm-dialog').classList.remove('active');
+}
+function cancelCheckout() {
+    document.getElementById('confirm-dialog').classList.remove('active');
+}
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    sidebar.classList.toggle('active');
+    overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+}
+document.getElementById('sidebar-overlay').onclick = function() {
+    document.getElementById('sidebar').classList.remove('active');
+    this.style.display = 'none';
+};
+const audio = document.getElementById('background-music');
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
+}
+function showSection(sectionId) {
+    document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById(sectionId).classList.add('active');
+    if (sectionId === 'products') {
+        renderProducts();
+    }
+}
+document.querySelectorAll('.sidebar a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        if (this.getAttribute('href') !== '#') {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            showSection(targetId);
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('sidebar-overlay').style.display = 'none';
+        }
+    });
+});
+function toggleSubmenu() {
+    const submenu = document.getElementById('product-submenu');
+    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+}
+function renderCategory(category) {
+    document.getElementById('product-submenu').style.display = 'none';
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('sidebar-overlay').style.display = 'none';
+
+    document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById('products').classList.add('active');
+
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = '';
+    const products = productsByCategory[category];
+    if (!products) {
+        productList.innerHTML = '<p style="color:white;">Produk tidak ditemukan.</p>';
+        return;
+    }
+    products.forEach((product, index) => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.style.transitionDelay = `${index * 0.15}s`;
+        card.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+                <h3 style="color: #fff; margin-bottom: 5px;">${product.name}</h3>
+                <p style="color: #ccc; font-size: 0.95rem; margin-bottom: 5px;">
+                    ${product.desc.replace(/\n/g, '<br>')}
+                </p>
+                <p style="color: #fff; font-weight: 600;">Rp ${product.price.toLocaleString("id-ID")}</p>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="buy-btn" onclick="buyNow(${product.id}, '${category}')">Buy Now</button>
+                    <button class="cart-btn" onclick="addToCart(${product.id}, '${category}')">Add to Cart</button>
+                </div>
+            </div>
+        `;
+        productList.appendChild(card);
+    });
+    animateCards();
+}
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.add('hidden');
+        audio.play();
+        document.getElementById('home-title').style.opacity = '1';
+        document.getElementById('home-title').style.transform = 'translateY(0)';
+        document.getElementById('home-subtitle').style.opacity = '1';
+        document.getElementById('home-subtitle').style.transform = 'translateY(0)';
+        showSection('home');
+    }, 1500);
+});
+</script>
+</body>
+</html>
