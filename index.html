@@ -166,13 +166,25 @@
           }
         }
         
-        footer {
-      text-align: center;
-      padding: 15px;
-      font-size: 0.9em;
-      background-color: rgba(0, 0, 0, 0.6);
-      color: #ccc;
-    }
+        .page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  flex: 1;
+}
+footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ccc;
+}
+
+#qna-title {
+  margin-top: -20px;
+}
     </style>
 </head>
 <body>
@@ -623,8 +635,14 @@ window.addEventListener('load', () => {
 });
 </script>
 
-  <footer>
-    © 2025 - DhikzxDev
-  </footer>
+
+  <div class="page-wrapper">
+    <!-- Background -->
+    <!-- Sidebar -->
+    <div class="container">
+       ...
+    </div>
+    <footer>© 2025 - DhikzxDev</footer>
+  </div>
 </body>
 </html>
