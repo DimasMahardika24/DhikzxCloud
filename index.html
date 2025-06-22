@@ -166,16 +166,15 @@
           }
         }
         
-.page-wrapper {
+        body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 .container {
-  flex: 1 0 auto;
+  flex: 1;
 }
 footer {
-  flex-shrink: 0;
   text-align: center;
   padding: 15px;
   font-size: 0.9em;
@@ -484,6 +483,7 @@ function addToCart(productId, category) {
     if (!product) return;
     cart.push({ ...product, checked: true });
     updateCart();
+    showToast(`${product.name} telah ditambahkan ke keranjang.`);
 }
 function buyNow(productId, category) {
     let product;
@@ -541,6 +541,16 @@ function confirmCheckout() {
 function cancelCheckout() {
     document.getElementById('confirm-dialog').classList.remove('active');
 }
+
+function showToast(message = "Item ditambahkan ke keranjang!") {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 2500);
+}
+
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
@@ -632,14 +642,22 @@ window.addEventListener('load', () => {
 });
 </script>
 
-
-  <div class="page-wrapper">
-    <!-- Background -->
-    <!-- Sidebar -->
-    <div class="container">
-       ...
-    </div>
-    <footer>© 2025 - DhikzxDev</footer>
-  </div>
+  <footer>
+    © 2025 - DhikzxDev
+  </footer>
+  
+  <div id="toast" style="
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 2000;
+">Item ditambahkan ke keranjang!</div>
 </body>
 </html>
