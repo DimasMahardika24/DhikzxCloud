@@ -904,14 +904,16 @@ document.getElementById('sidebar-overlay').onclick = function() {
 
 
 function showSection(sectionId) {
+  const target = document.getElementById(sectionId);
+
+  if (target.classList.contains('active')) return; // ⛔ STOP scroll kalau udah aktif
+
   document.querySelectorAll('section').forEach(section => {
     section.classList.remove('active');
   });
-  const section = document.getElementById(sectionId);
-  section.classList.add('active');
 
-  // Scroll ke atas elemen section (bukan window)
-  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  target.classList.add('active');
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   if (sectionId === 'products') {
     renderProducts();
