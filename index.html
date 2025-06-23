@@ -7,7 +7,7 @@
 
     <!-- ✅ Open Graph buat gambar saat dibagikan -->
     <meta property="og:title" content="Dhikzx Cloud Store" />
-    <meta property="og:description" content="Panel Bot Termurah, Terbaik, dan Terpercaya!" />
+    <meta property="og:description" content="Menyediakan Script Lynxxx Botz Dan Panel Pterodactyl yang fleksibel dan terpecaya." />
     <meta property="og:image" content="https://files.catbox.moe/di1rgb.jpeg" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
@@ -37,6 +37,26 @@
             0%, 100% { opacity: 0.4; transform: translateY(5px); }
             50% { opacity: 1; transform: translateY(0); }
         }
+        
+        @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blinkText {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blinking {
+  animation: blinkText 2.5s ease-in-out infinite;
+}
         @keyframes pulse {
             0% { transform: scale(1); opacity: 0.5; }
             50% { transform: scale(1.2); opacity: 0.2; }
@@ -403,24 +423,33 @@ footer {
     <div class="container">
         <!-- Home Section -->
         <section id="home" class="active">
-           <h1 id="home-title" style="margin-top: 10px; text-align:center; color:#4fc3f7; text-shadow:0 2px 4px rgba(0,0,0,0.5);">
-    Welcome To Dhikzx Cloud
+          
+          <h1 id="home-title" style="
+  margin-top: 10px;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2196f3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+">
 </h1>
-            <p id="home-subtitle" style="text-align:center; color:#eee; margin-top:18px; font-size:1.2rem;">
+
+            <p id="home-subtitle" style="text-align:center; color:#eee; margin-top:18px; font-size:1.2rem; opacity: 0;">
                 Dhikzx Cloud menghadirkan solusi digital lengkap untuk kebutuhan otomasi dan manajemen bot Anda.<br>
-                Kami menyediakan produk unggulan seperti <strong>Script Lynxxx Botz</strong> yang powerful, <strong>Panel Pterodactyle</strong> untuk tempat run dan kontrol bot anda, <strong>Sewa Botz</strong> yang fleksibel dan terpercaya.<br><br>
+                Kami menyediakan produk unggulan seperti <strong>Script Lynxxx Botz</strong> yang powerful, <strong>Panel Pterodactyle</strong> untuk tempat run dan kontrol bot anda, <strong>Sewa Botz</strong> yang siap menjaga group anda.<br><br>
                 Dengan kualitas terbaik, harga kompetitif, dan dukungan teknis profesional, kami siap membantu Anda meningkatkan performa bot dan memaksimalkan produktivitas.<br>
                 Jelajahi produk kami dan rasakan kemudahan bertransaksi serta layanan pelanggan yang ramah di Dhikzx Cloud!
             </p>
             
-            <p style="color:#aaa; font-style:italic; text-align:center; margin-top:30px;">
+            
+            <p class="blinking" style="color:#aaa; font-style:italic; text-align:center; margin-top:30px;">
   Lebih dari <strong>15+</strong> pengguna telah mempercayai Dhikzx Cloud Store untuk kebutuhan digital mereka.
 </p>
 
             
-            <div style="text-align: center; margin-top: 66px;">
+<div style="text-align: center; margin-top: 66px;">
   <button onclick="toggleSidebar()" style="
-    background: linear-gradient(135deg, #007bff, #00d4ff);
+    background: linear-gradient(135deg, #28a745, #00ff88);
     color: white;
     padding: 14px 30px;
     border: none;
@@ -428,10 +457,11 @@ footer {
     font-size: 1.05rem;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 213, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.4);
     transition: all 0.3s ease;
-  " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 18px rgba(0, 213, 255, 0.6)';" 
-     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 213, 255, 0.4)';">
+  " 
+  onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 18px rgba(0, 255, 136, 0.6)';" 
+  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 255, 136, 0.4)';">
    View Navigasi
   </button>
 </div>
@@ -778,7 +808,18 @@ function cancelCheckout() {
     document.getElementById('confirm-dialog').classList.remove('active');
 }
 
-
+function typeHomeTitle() {
+  const el = document.getElementById("home-title");
+  if (!el) return;
+  if (typingIndex < typingText.length) {
+    el.textContent += typingText.charAt(typingIndex);
+    typingIndex++;
+    setTimeout(typeHomeTitle, 100);
+  } else {
+    const subtitle = document.getElementById("home-subtitle");
+    subtitle.style.animation = "fadeInUp 1s ease forwards";
+  }
+}
 
 
 
@@ -845,6 +886,9 @@ function closeToastV2() {
 }
 
 
+// Efek ketik judul Home
+const typingText = "Welcome To Dhikzx Cloud";
+let typingIndex = 0;
 
 
 function toggleSidebar() {
@@ -929,10 +973,10 @@ function renderCategory(category) {
     animateCards();
 }
 window.addEventListener('load', () => {
+  typeHomeTitle(); // ⬅️ tambahkan ini
     
     document.getElementById('home-title').style.opacity = '1';
     document.getElementById('home-title').style.transform = 'translateY(0)';
-    document.getElementById('home-subtitle').style.opacity = '1';
     document.getElementById('home-subtitle').style.transform = 'translateY(0)';
     showSection('home');
 });
@@ -949,10 +993,13 @@ window.addEventListener('load', () => {
 </div>
 
 <!-- Tombol Scroll Ke Atas -->
-<button id="scrollToTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" 
-style="display:none; position:fixed; bottom:25px; right:20px; background:#4fc3f7; color:#000; border:none; padding:10px 14px; border-radius:10px; font-size:20px; cursor:pointer; z-index:1200;">
-⬆️
+<button id="scrollToTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+style="display:none; position:fixed; bottom:25px; right:20px; background:#4fc3f7; border:none; padding:10px; border-radius:10px; cursor:pointer; z-index:1200;">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L5 9H9V22H15V9H19L12 2Z"/>
+  </svg>
 </button>
+
 
 <!-- Script Scroll -->
 <script>
