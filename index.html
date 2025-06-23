@@ -109,7 +109,8 @@
         .cart-btn { background:#007bff; color:#fff; }
         .cart { background:#333; border-radius:14px; margin-top:40px; padding:25px; color:#fff; }
         .cart-count { position:fixed; top:20px; right:20px; background:#ff4444; color:#fff; border-radius:50%; padding:8px 12px; font-size:14px; z-index:1100;}
-        border-radius:8px; background:#007bff; color:#fff; cursor:pointer; }
+        .audio-controls { position:fixed; bottom:20px; right:20px; z-index:1100; }
+        .audio-controls button { padding:12px; border:none; border-radius:8px; background:#007bff; color:#fff; cursor:pointer; }
         
          /* Cart Section */
         .cart {
@@ -181,30 +182,30 @@ footer {
   color: #ccc;
 }
 
-    .whatsapp-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 999;
-      width: 60px;
-      height: 60px;
-      background-color: #25d366;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.3s ease;
-    }
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  left: 20px; /* dari right ke left */
+  z-index: 999;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
 
-    .whatsapp-float:hover {
-      transform: scale(1.1);
-    }
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
 
-    .whatsapp-float img {
-      width: 35px;
-      height: 35px;
-    }
+.whatsapp-float img {
+  width: 35px;
+  height: 35px;
+}
     </style>
 </head>
 <body>
@@ -348,6 +349,13 @@ footer {
 </section>
     <!-- Cart Count -->
     <div class="cart-count" id="cart-count">0</div>
+    <!-- Audio -->
+    <audio id="background-music" loop>
+        <source src="https://files.catbox.moe/pvi4ym.mpeg" type="audio/mpeg">
+    </audio>
+    <div class="audio-controls">
+        <button onclick="toggleMusic()">Play/Pause Music</button>
+    </div>
 
     <script>
 const products = []; // Kosongkan produk utama, semua panel di kategori
@@ -582,6 +590,14 @@ document.getElementById('sidebar-overlay').onclick = function() {
     document.getElementById('sidebar').classList.remove('active');
     this.style.display = 'none';
 };
+const audio = document.getElementById('background-music');
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
+}
 function showSection(sectionId) {
     document.querySelectorAll('section').forEach(section => {
         section.classList.remove('active');
@@ -646,16 +662,13 @@ function renderCategory(category) {
     animateCards();
 }
 window.addEventListener('load', () => {
+    audio.play();
     document.getElementById('home-title').style.opacity = '1';
     document.getElementById('home-title').style.transform = 'translateY(0)';
     document.getElementById('home-subtitle').style.opacity = '1';
     document.getElementById('home-subtitle').style.transform = 'translateY(0)';
     showSection('home');
 });
-
-<!-- Tombol WhatsApp Mengambang -->
-  <a href="https://wa.me/6285810287828" target="_blank" class="whatsapp-float">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
 </script>
 
   
@@ -676,5 +689,10 @@ window.addEventListener('load', () => {
   <footer>
     © 2025 - DhikzxDev
   </footer>
+  
+  <!-- Tombol WhatsApp Mengambang di pojok kiri -->
+<a href="https://wa.me/6285810287828" target="_blank" class="whatsapp-float">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+</a>
 </body>
 </html>
