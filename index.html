@@ -109,9 +109,23 @@
         .cart-btn { background:#007bff; color:#fff; }
         .cart { background:#333; border-radius:14px; margin-top:40px; padding:25px; color:#fff; }
         .cart-count { position:fixed; top:20px; right:20px; background:#ff4444; color:#fff; border-radius:50%; padding:8px 12px; font-size:14px; z-index:1100;}
-        .audio-controls { position:fixed; bottom:20px; right:20px; z-index:1100; }
-        .audio-controls button { padding:12px; border:none; border-radius:8px; background:#007bff; color:#fff; cursor:pointer; }
         
+.qna-box {
+  background-color: rgba(0, 0, 0, 0.60);
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+.qna-box strong {
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.qna-box strong:hover {
+  color: #4fc3f7;
+  text-decoration: underline;
+}
+
          /* Cart Section */
         .cart {
     padding: 30px;
@@ -149,6 +163,80 @@
             transform: translateY(-3px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 15);
         }
+        
+        .cart-item button {
+    background: transparent;
+    border: none;
+    color: #ff4444;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.cart-icon {
+  position: fixed;
+  top: -7px;
+  right: 34px;
+  width: 35px;
+  height: 30px;
+  z-index: 1200;
+  cursor: pointer;
+}
+
+.cart-icon img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+  display: block;
+  position: relative;
+}
+
+.cart-icon span {
+  position: absolute;
+  top: 15px;
+  right: -20px;
+  background: #ff4444;
+  color: white;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+        
+#contact {
+  padding: 20px 15px 80px 15px; /* tambahkan ruang bawah */
+  margin-top: 0; /* hilangkan margin atas */
+  text-align: center;
+  color: #eee;
+}
+#contact h1 {
+  color: #4fc3f7;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 20px;
+}
+#contact img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 15px;
+}
+#contact p {
+  font-size: 1.1rem;
+  max-width: 300px;
+  margin: 0 auto 20px;
+}
+#contact a.chat-button {
+  margin-top: 15px;
+  background-color: #25d366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  font-weight: bold;
+  display: inline-block;
+}
+
         .confirm-dialog { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.7); background:#fff; color:#222; padding:30px; border-radius:18px; box-shadow:0 12px 30px rgba(0,0,0,0.3); z-index:2000; opacity:0; visibility:hidden; transition:all .4s; text-align:center; }
         .confirm-dialog.active { opacity:1; visibility:visible; transform:translate(-50%,-50%) scale(1); }
         .confirm-dialog img { width:60px; height:60px; border-radius:50%; margin-bottom:16px; }
@@ -181,6 +269,88 @@ footer {
   background-color: rgba(0, 0, 0, 0.6);
   color: #ccc;
 }
+
+#toast {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 2000;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateX(0); /* masuk dari kanan ke tengah */
+}
+
+#toast.hide {
+  opacity: 0;
+  transform: translateX(100%); /* keluar balik ke kanan */
+}
+
+
+.toast-v2 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: rgba(10, 10, 10, 0.85); /* hitam transparan elegan */
+  color: #fff;
+  padding: 22px 28px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.4), /* bayangan bawah */
+    0 0 0 1.5px rgba(255, 255, 255, 0.08); /* ✅ stroke putih tipis */
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  text-align: center;
+  max-width: 90%;
+  width: max-content;
+  min-width: 220px;
+
+  /* ✅ fix layout biar tombol di bawah teks */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toast-v2.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.toast-v2 button {
+  margin-top: 16px;
+  padding: 8px 18px;
+  background-color: #ff4c4c;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.toast-v2 button:hover {
+  background-color: #e84141;
+}
+
+
+
+
     </style>
 </head>
 <body>
@@ -204,7 +374,7 @@ footer {
             </li>
             <li><a href="#cart">🛒Keranjang</a></li>
             <li><a href="#qna">📝Panduan</a></li>
-            <li><a href="#contact">👤 Contact</a></li>
+            <li><a href="#contact">👤Contact</a></li>
         </ul>
     </div>
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -225,13 +395,37 @@ footer {
            <h1 id="home-title" style="margin-top: 10px; text-align:center; color:#4fc3f7; text-shadow:0 2px 4px rgba(0,0,0,0.5);">
     Welcome To Dhikzx Cloud
 </h1>
-            </h1>
             <p id="home-subtitle" style="text-align:center; color:#eee; margin-top:18px; font-size:1.2rem;">
                 Dhikzx Cloud menghadirkan solusi digital lengkap untuk kebutuhan otomasi dan manajemen bot Anda.<br>
                 Kami menyediakan produk unggulan seperti <strong>Script Lynxxx Botz</strong> yang powerful, <strong>Panel Pterodactyle</strong> untuk tempat run dan kontrol bot anda, <strong>Sewa Botz</strong> yang fleksibel dan terpercaya.<br><br>
                 Dengan kualitas terbaik, harga kompetitif, dan dukungan teknis profesional, kami siap membantu Anda meningkatkan performa bot dan memaksimalkan produktivitas.<br>
                 Jelajahi produk kami dan rasakan kemudahan bertransaksi serta layanan pelanggan yang ramah di Dhikzx Cloud!
             </p>
+            
+            <p style="color:#aaa; font-style:italic; text-align:center; margin-top:30px;">
+  Lebih dari <strong>15+</strong> pengguna telah mempercayai Dhikzx Cloud Store untuk kebutuhan digital mereka.
+</p>
+
+            
+            <div style="text-align: center; margin-top: 66px;">
+  <button onclick="toggleSidebar()" style="
+    background: linear-gradient(135deg, #007bff, #00d4ff);
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 213, 255, 0.4);
+    transition: all 0.3s ease;
+  " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 18px rgba(0, 213, 255, 0.6)';" 
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 213, 255, 0.4)';">
+   View Navigasi
+  </button>
+</div>
+
+
         </section>
         
         <!-- Products Section -->
@@ -246,11 +440,11 @@ footer {
             <p id="cart-total" style="margin-top:10px; font-weight:bold;"></p>
             <button class="checkout-btn" onclick="showConfirmDialog()">Checkout</button>
         </section>
-    </div>
+    
 <!-- qna Section -->
-<section id="qna" class="active" style="padding: 20px 0 80px 0;">
-<h1 style="text-align:center; color: #69f0ae; text-shadow:0 2px 4px rgba(0,0,0,0.5); margin-top: 0; margin-bottom: 10px;" id="qna-title">
-    Frequently Asked Questions
+<section id="qna" style="padding: 20px 0 80px 0;">
+<h1 style="margin-top: 0; padding-top: 0; text-align:center; color: #69f0ae;">
+  Frequently Asked Questions
 </h1>
     <div id="qna-subtitle" style="color:#eee; font-size:1.1rem; max-width:800px; margin:auto; padding:0 20px;">
         <style>
@@ -316,37 +510,33 @@ footer {
     <strong>Q: Apa saja metode pembayaran yang tersedia?</strong><br>
     A: Untuk Saat Ini Kami Hanya Menyediakan Pembayaran Melalui Dana. Tapi Jangan Khawatir, Kami Tersedia Qris All Payment, Jadi Kamu Dapat Melakukan Pembayaran Walaupun Berbeda Metodenya.
 </div>
-    </div>
 </section>
 
 <!-- Contact Section -->
-<section id="contact" style="padding: 20px 0 80px 0;">
-  <h1 style="text-align:center; color: #4fc3f7; text-shadow:0 2px 4px rgba(0,0,0,0.5); margin-top: 0; margin-bottom: 10px;">
-    Hubungi Kami
-  </h1>
-  <div style="color:#eee; font-size:1.1rem; max-width:800px; margin:auto; padding:0 20px;">
-    <div class="qna-box" style="text-align: center;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" style="width: 50px; height: 50px; margin-bottom: 12px;" />
-      <p style="margin-bottom: 20px;">
-        Punya pertanyaan tentang produk, pembelian, atau sekadar mau konsultasi dulu sebelum beli?  
-        Klik tombol di bawah ini untuk langsung hubungi admin lewat WhatsApp.  
-        Kami siap membantu kamu dengan cepat dan ramah 😊
-      </p>
-      <a href="https://wa.me/6285810287828" target="_blank" style="display:inline-block; background-color: #25d366; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-        💬 Chat Sekarang
-      </a>
-    </div>
+<section id="contact" style="margin-top: 20px;">
+  <h1>Hubungi Kami</h1>
+
+  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" />
+
+    <p>
+      Jika kamu memiliki pertanyaan seputar produk, cara pembelian, kendala script, atau hanya sekadar ingin konsultasi sebelum membeli, kamu bisa langsung hubungi admin melalui WhatsApp dengan menekan tombol di bawah ini. Kami siap membantu kamu dengan cepat dan ramah.
+    </p>
+
+    <a href="https://wa.me/6285810287828" target="_blank" class="chat-button">
+      💬 Chat Sekarang
+    </a>
+  </div>
+  
+
+  
   </div>
 </section>
     <!-- Cart Count -->
-    <div class="cart-count" id="cart-count">0</div>
-    <!-- Audio -->
-    <audio id="background-music" loop>
-        <source src="https://files.catbox.moe/pvi4ym.mpeg" type="audio/mpeg">
-    </audio>
-    <div class="audio-controls">
-        <button onclick="toggleMusic()">Play/Pause Music</button>
-    </div>
+    <div class="cart-icon" onclick="showSection('cart')">
+  <img src="https://files.catbox.moe/8u7isr.png" alt="Cart" />
+  <span id="cart-count">0</span>
+</div>
 
     <script>
 const products = []; // Kosongkan produk utama, semua panel di kategori
@@ -494,6 +684,10 @@ function animateCards() {
     }, 10);
 }
 function addToCart(productId, category) {
+  if (cart.length >= 10) {
+        showToastV2("Batas maksimal 10 produk di keranjang");
+        return;
+    }
     let product;
     if (category) {
         product = productsByCategory[category].find(p => p.id === productId);
@@ -526,18 +720,29 @@ function updateCart() {
         itemDiv.innerHTML = `
             <div>
                 <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleCartItem(${index}, this.checked)">
-                ${item.name} - Rp ${item.price.toLocaleString("id-ID")} <button onclick="removeCartItem(${index})">❌</button>
+                ${item.name} - Rp ${item.price.toLocaleString("id-ID")} <button onclick="removeCartItem(${index})" style="background:transparent;border:none;color:#ff4444;font-size:1.1rem;cursor:pointer;">❌</button>
             </div>
         `;
         cartItems.appendChild(itemDiv);
     });
-    document.getElementById('cart-count').textContent = cart.length;
-    const total = (cart.filter(i => i.checked).reduce((sum, i) => sum + i.price, 0)) || 0;
-    document.getElementById('cart-total').textContent = `Total: Rp ${total.toLocaleString("id-ID")}`;
+    const cartCount = document.getElementById('cart-count');
+cartCount.textContent = cart.length;
+
+// Ubah warna berdasarkan jumlah item
+if (cart.length === 0) {
+    cartCount.style.background = '#ff4444'; // Merah
+} else {
+    cartCount.style.background = '#28a745'; // Hijau
+}
+
+const total = (cart.filter(i => i.checked).reduce((sum, i) => sum + i.price, 0)) || 0;
+document.getElementById('cart-total').textContent = `Total: Rp ${total.toLocaleString("id-ID")}`;
 }
 function removeCartItem(index) {
+    const removedItem = cart[index];
     cart.splice(index, 1);
     updateCart();
+    showToast(`Produk "${removedItem.name}" telah dihapus dari keranjang!`, "#dc3545"); // warna merah
 }
 function toggleCartItem(index, isChecked) {
     cart[index].checked = isChecked;
@@ -545,7 +750,7 @@ function toggleCartItem(index, isChecked) {
 function showConfirmDialog() {
     const selectedItems = cart.filter(item => item.checked);
     if (selectedItems.length === 0) {
-        alert('Pilih setidaknya satu item untuk checkout.');
+        showToastV2("Silkan Pilih 1 Item Produk Untuk Checkout.");
         return;
     }
     document.getElementById('confirm-dialog').classList.add('active');
@@ -562,14 +767,74 @@ function cancelCheckout() {
     document.getElementById('confirm-dialog').classList.remove('active');
 }
 
-function showToast(message = "Item ditambahkan ke keranjang!") {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.style.display = 'block';
-    setTimeout(() => {
-        toast.style.display = 'none';
-    }, 2500);
+
+
+
+
+let toastTimeout;
+let toastHideTimeout;
+
+function showToast(message = "Item ditambahkan ke keranjang!", bgColor = "#28a745") {
+  const toast = document.getElementById('toast');
+
+  // Hentikan semua animasi sebelumnya
+  clearTimeout(toastTimeout);
+  clearTimeout(toastHideTimeout);
+
+  // Hapus class animasi agar bisa reset
+  toast.classList.remove('show', 'hide');
+
+  // Ubah isi & warna
+  toast.textContent = message;
+  toast.style.backgroundColor = bgColor;
+
+  // Tampilkan dulu
+  toast.style.display = 'block';
+
+  // 🔥 TRIK UTAMA: Tambahkan class 'show' DI FRAME BERIKUTNYA (kasih delay pendek)
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 10); // ⬅️ ini yang bikin animasi masuk diputar ulang
+
+  // Timeout keluar
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+    toast.classList.add('hide');
+
+    toastHideTimeout = setTimeout(() => {
+      toast.style.display = 'none';
+      toast.classList.remove('hide');
+    }, 400);
+  }, 2000);
 }
+
+
+let toastV2Timeout;
+
+function showToastV2(message = "Pesan berhasil!", autoClose = true) {
+  const toast = document.getElementById('toast-v2');
+  const text = document.getElementById('toast-v2-message');
+
+  toast.className = 'toast-v2'; // Reset semua class styling
+  text.textContent = message;
+  toast.classList.add('show');
+
+  // Auto-close jika aktif
+  if (autoClose) {
+    clearTimeout(toastV2Timeout); // reset jika sebelumnya ada
+    toastV2Timeout = setTimeout(() => {
+      closeToastV2();
+    }, 2500); // ⏱️ 2.5 detik
+  }
+}
+
+function closeToastV2() {
+  document.getElementById('toast-v2').classList.remove('show');
+  clearTimeout(toastV2Timeout);
+}
+
+
+
 
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
@@ -581,23 +846,23 @@ document.getElementById('sidebar-overlay').onclick = function() {
     document.getElementById('sidebar').classList.remove('active');
     this.style.display = 'none';
 };
-const audio = document.getElementById('background-music');
-function toggleMusic() {
-    if (audio.paused) {
-        audio.play();
-    } else {
-        audio.pause();
-    }
-}
+
+
 function showSection(sectionId) {
-    document.querySelectorAll('section').forEach(section => {
-        section.classList.remove('active');
-    });
-    document.getElementById(sectionId).classList.add('active');
-    if (sectionId === 'products') {
-        renderProducts();
-    }
+  document.querySelectorAll('section').forEach(section => {
+    section.classList.remove('active');
+  });
+  const section = document.getElementById(sectionId);
+  section.classList.add('active');
+
+  // Scroll ke atas elemen section (bukan window)
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  if (sectionId === 'products') {
+    renderProducts();
+  }
 }
+
 document.querySelectorAll('.sidebar a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         if (this.getAttribute('href') !== '#') {
@@ -653,7 +918,7 @@ function renderCategory(category) {
     animateCards();
 }
 window.addEventListener('load', () => {
-    audio.play();
+    
     document.getElementById('home-title').style.opacity = '1';
     document.getElementById('home-title').style.transform = 'translateY(0)';
     document.getElementById('home-subtitle').style.opacity = '1';
@@ -663,19 +928,32 @@ window.addEventListener('load', () => {
 </script>
 
   
-  <div id="toast" style="
-  position: fixed;
-  bottom: 30px;
-  right: 20px;
-  background-color: #28a745;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-size: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  display: none;
-  z-index: 2000;
-">Item ditambahkan ke keranjang!</div>
+<div id="toast">Item ditambahkan ke keranjang!</div>
+
+
+<!-- Toast v2 (modern glass) -->
+<div id="toast-v2" class="toast-v2">
+  <span id="toast-v2-message">Pesan</span>
+  <button onclick="closeToastV2()">Tutup</button>
+</div>
+
+<!-- Tombol Scroll Ke Atas -->
+<button id="scrollToTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" 
+style="display:none; position:fixed; bottom:25px; right:20px; background:#4fc3f7; color:#000; border:none; padding:10px 14px; border-radius:10px; font-size:20px; cursor:pointer; z-index:1200;">
+⬆️
+</button>
+
+<!-- Script Scroll -->
+<script>
+  window.addEventListener("scroll", () => {
+    const scrollBtn = document.getElementById("scrollToTopBtn");
+    if (window.scrollY > 200) {
+      scrollBtn.style.display = "block";
+    } else {
+      scrollBtn.style.display = "none";
+    }
+  });
+</script>
 
   <footer>
     © 2025 - DhikzxDev
