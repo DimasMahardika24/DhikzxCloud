@@ -109,8 +109,7 @@
         .cart-btn { background:#007bff; color:#fff; }
         .cart { background:#333; border-radius:14px; margin-top:40px; padding:25px; color:#fff; }
         .cart-count { position:fixed; top:20px; right:20px; background:#ff4444; color:#fff; border-radius:50%; padding:8px 12px; font-size:14px; z-index:1100;}
-        .audio-controls { position:fixed; bottom:20px; right:20px; z-index:1100; }
-        .audio-controls button { padding:12px; border:none; border-radius:8px; background:#007bff; color:#fff; cursor:pointer; }
+        border-radius:8px; background:#007bff; color:#fff; cursor:pointer; }
         
          /* Cart Section */
         .cart {
@@ -181,6 +180,31 @@ footer {
   background-color: rgba(0, 0, 0, 0.6);
   color: #ccc;
 }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      width: 60px;
+      height: 60px;
+      background-color: #25d366;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    .whatsapp-float img {
+      width: 35px;
+      height: 35px;
+    }
     </style>
 </head>
 <body>
@@ -203,7 +227,7 @@ footer {
 </ul>
             </li>
             <li><a href="#cart">🛒Keranjang</a></li>
-            <li><a href="#qna">📝Questions</a></li>
+            <li><a href="#qna">📝Panduan</a></li>
         </ul>
     </div>
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -227,7 +251,7 @@ footer {
             </h1>
             <p id="home-subtitle" style="text-align:center; color:#eee; margin-top:18px; font-size:1.2rem;">
                 Dhikzx Cloud menghadirkan solusi digital lengkap untuk kebutuhan otomasi dan manajemen bot Anda.<br>
-                Kami menyediakan produk unggulan seperti <strong>Script Lynxxx Botz</strong> yang powerful, <strong>Panel Pterodactyle</strong> untuk tempat run dan kontrol bot anda, <strong>Sewa Botz</strong> dan <strong>Rename Bot</strong> yang fleksibel dan terpercaya.<br><br>
+                Kami menyediakan produk unggulan seperti <strong>Script Lynxxx Botz</strong> yang powerful, <strong>Panel Pterodactyle</strong> untuk tempat run dan kontrol bot anda, <strong>Sewa Botz</strong> yang fleksibel dan terpercaya.<br><br>
                 Dengan kualitas terbaik, harga kompetitif, dan dukungan teknis profesional, kami siap membantu Anda meningkatkan performa bot dan memaksimalkan produktivitas.<br>
                 Jelajahi produk kami dan rasakan kemudahan bertransaksi serta layanan pelanggan yang ramah di Dhikzx Cloud!
             </p>
@@ -271,7 +295,7 @@ footer {
         </style>
 
         <div class="qna-box">
-            <strong>Q: Bagaimana cara produknya?</strong><br>
+            <strong>Q: Bagaimana cara membeli produknya?</strong><br>
             A: Silakan tekan tombol ☰ di pojok kiri atas, lalu pilih menu sesuai produk yang ingin dibeli (Example: "Script Lynxxx Botz"). Setelah itu akan muncul otomatis berisi detail produk. Jika Anda hanya membeli 1 produk, Anda bisa langsung klik "Buy Now". Jika ingin membeli beberapa produk, klik "Add To Cart" untuk setiap produk agar masuk ke keranjang.
         </div>
 
@@ -302,6 +326,11 @@ footer {
 </div>
 
 <div class="qna-box">
+    <strong>Q: Apakah ada Testimoni yang tersedia?</strong><br>
+    A: Ya, testimoni dari para pembeli bisa kamu lihat langsung melalui <a href="https://whatsapp.com/channel/0029VarFuObFnSz613OZ413J" target="_blank" style="color:#4fc3f7; text-decoration:underline;">Channel WhatsApp Resmi Kami</a>. Semua feedback pembeli kami tampilkan di sana.
+</div>
+
+<div class="qna-box">
     <strong>Q: Apakah data pembelian saya aman?</strong><br>
     A: Kami sangat menjaga kerahasiaan data Anda. Semua transaksi dan data pengguna diamankan dengan enkripsi, dan kami tidak akan membagikan informasi Anda kepada pihak ketiga tanpa izin.
 </div>
@@ -319,13 +348,6 @@ footer {
 </section>
     <!-- Cart Count -->
     <div class="cart-count" id="cart-count">0</div>
-    <!-- Audio -->
-    <audio id="background-music" loop>
-        <source src="https://files.catbox.moe/pvi4ym.mpeg" type="audio/mpeg">
-    </audio>
-    <div class="audio-controls">
-        <button onclick="toggleMusic()">Play/Pause Music</button>
-    </div>
 
     <script>
 const products = []; // Kosongkan produk utama, semua panel di kategori
@@ -379,7 +401,6 @@ const productsByCategory = {
 • Gratis Eggs Untuk Script
 • Support Button (Wa Beta)
 • Bisa Setting Button & No Button
-• Bisa Setting Button & No Button
 • Bisa Ganti Database Sebanyak 3x
 • Hanya Bisa Add 1 Nomor Setiap Ganti
 • Selebihnya Baca Disini: <a href="https://rules-fawn.vercel.app" target="_blank" style="color:#4fc3f7; text-decoration:underline;">Rules & Ketentuan</a>
@@ -393,7 +414,7 @@ const productsByCategory = {
     name: "Reseller Script",
     desc: `Benefit Buy:\n
 • Free Rename
-• Free Update ( *∞* )
+• Free Update ( ∞ )
 • Bisa Ganti Database Sebanyak 7x
 • Bisa Add 2 Nomor Setiap Ganti
 • Selebihnya Baca Disini: <a href="https://rules-fawn.vercel.app" target="_blank" style="color:#4fc3f7; text-decoration:underline;">Rules & Ketentuan</a>
@@ -406,7 +427,7 @@ const productsByCategory = {
     name: "Owner Script",
     desc: `Benefit Buy:\n
 • Free Rename
-• Free Update ( *∞* )
+• Free Update ( ∞ )
 • Bisa Adddatabase Sendiri 
 • Bisa Jualan Script Lynxxx Botz V3
 • Bisa Jualan Advance Script ( Dilarang Jual Owner Script )
@@ -561,14 +582,6 @@ document.getElementById('sidebar-overlay').onclick = function() {
     document.getElementById('sidebar').classList.remove('active');
     this.style.display = 'none';
 };
-const audio = document.getElementById('background-music');
-function toggleMusic() {
-    if (audio.paused) {
-        audio.play();
-    } else {
-        audio.pause();
-    }
-}
 function showSection(sectionId) {
     document.querySelectorAll('section').forEach(section => {
         section.classList.remove('active');
@@ -633,18 +646,18 @@ function renderCategory(category) {
     animateCards();
 }
 window.addEventListener('load', () => {
-    audio.play();
     document.getElementById('home-title').style.opacity = '1';
     document.getElementById('home-title').style.transform = 'translateY(0)';
     document.getElementById('home-subtitle').style.opacity = '1';
     document.getElementById('home-subtitle').style.transform = 'translateY(0)';
     showSection('home');
 });
+
+<!-- Tombol WhatsApp Mengambang -->
+  <a href="https://wa.me/6285810287828" target="_blank" class="whatsapp-float">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
 </script>
 
-  <footer>
-    © 2025 - DhikzxDev
-  </footer>
   
   <div id="toast" style="
   position: fixed;
@@ -659,5 +672,9 @@ window.addEventListener('load', () => {
   display: none;
   z-index: 2000;
 ">Item ditambahkan ke keranjang!</div>
+
+  <footer>
+    © 2025 - DhikzxDev
+  </footer>
 </body>
 </html>
